@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickPing</title>
+    <style>
+      :root {
+        --bright-green: #4cd964;
+        --dark-green: #006d5b;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+        line-height: 1.5;
+        background: linear-gradient(
+          135deg,
+          var(--bright-green) 0%,
+          var(--dark-green) 100%
+        );
+        color: white;
+        min-height: 100vh;
+      }
+
+      .page-wrapper {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .geometric-shape {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        animation: scaleIn 1s ease-out;
+        z-index: 1;
+      }
+
+      .shape-circle-1 {
+        width: 40vw;
+        height: 40vw;
+        border-radius: 50%;
+        top: -10%;
+        right: -10%;
+      }
+
+      .shape-triangle-1 {
+        width: 30vw;
+        height: 30vw;
+        clip-path: polygon(0 0, 100% 0, 100% 100%);
+        top: 40%;
+        left: -10%;
+        animation-delay: 0.2s;
+      }
+
+      .shape-circle-2 {
+        width: 35vw;
+        height: 35vw;
+        border-radius: 50%;
+        bottom: 10%;
+        right: -5%;
+        animation-delay: 0.3s;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-content {
+        text-align: center;
+        animation: fadeInUp 1s ease-out;
+        padding: 4rem 0;
+      }
+
+      h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease-out 0.2s backwards;
+      }
+
+      .cta-button {
+        background: white;
+        color: var(--dark-green);
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.2rem;
+        transition: transform 0.2s;
+        display: inline-block;
+        animation: fadeInUp 1s ease-out 0.4s backwards;
+      }
+
+      .cta-button:hover {
+        transform: scale(1.05);
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 4rem 0;
+      }
+
+      .feature {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 1rem;
+        text-align: center;
+        animation: fadeInUp 1s ease-out 0.6s backwards;
+        backdrop-filter: blur(10px);
+      }
+
+      .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .app-showcase {
+        padding: 4rem 0;
+      }
+
+      .app-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4rem;
+      }
+
+      .app-text {
+        flex: 1;
+        text-align: right;
+        animation: slideInRight 1s ease-out;
+      }
+
+      .app-text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .app-text p {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        opacity: 0.9;
+      }
+
+      .app-image {
+        flex: 1;
+        position: relative;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .phone-frame {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2rem;
+        padding: 1rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: 0 auto;
+        backdrop-filter: blur(10px);
+        animation: slideInLeft 1s ease-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .phone-screen {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 1rem;
+        min-height: 500px;
+        box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .app-container {
+          flex-direction: column;
+        }
+
+        .app-text {
+          padding: 0;
+          margin-bottom: 2rem;
+          text-align: center;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        .phone-frame {
+          max-width: 280px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <div class="geometric-shape shape-circle-1"></div>
+      <div class="geometric-shape shape-triangle-1"></div>
+      <div class="geometric-shape shape-circle-2"></div>
+
+      <div class="container">
+        <div class="hero-content">
+          <h1>QuickPing</h1>
+          <p class="subtitle">שלח הודעות בוואצאפ ללא צורך בשמירת מספר</p>
+          <a href="https://github.com/TheYali1/TheYali1.github.io/raw/refs/heads/main/QuickPing.apk" class="cta-button">הורד עכשיו (לאנדרואיד בלבד)</a>
+
+          <div class="features">
+            <div class="feature">
+              <div class="feature-icon">🚀</div>
+              <h3>פשוט ומהיר</h3>
+              <p>שליחת הודעות ישירות ללא שמירת אנשי קשר</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">🇮🇱</div>
+              <h3>המצאה כחול לבן</h3>
+              <p>יוצר ישראלי יצר את האפליקציה הזאת</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">✨</div>
+              <h3>ממשק נוח</h3>
+              <p>עיצוב מודרני וקל לשימוש</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-showcase">
+          <div class="app-container">
+            <div class="app-text">
+              <h2>הכירו את האפליקציה</h2>
+              <p>
+                האפליקציה שלנו מאפשרת לכם לשלוח הודעות WhatsApp למספרים חדשים
+                בקלות ובמהירות, בלי צורך לשמור אותם ברשימת אנשי הקשר שלכם.
+              </p>
+              <p>פשוט הכניסו את המספר, כתבו את ההודעה ושלחו - בלי סיבוכים!</p>
+            </div>
+            <div class="app-image">
+              <div class="phone-frame">
+                <div class="phone-screen">
+                  <img
+                    src="https://raw.githubusercontent.com/TheYali1/TheYali1.github.io/refs/heads/main/scrcpy_jtZ3Hlt4wm.png"
+                    alt="תצוגת האפליקציה"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="faq-section">
+          <h2 class="section-title">שאלות ותשובות</h2>
+          <div class="faq-grid">
+            <div class="faq-item">
+              <h3>איך האפליקציה עובדת?</h3>
+              <p>
+                אנחנו משתמשים בAPI של וואצאפ בשביל לשלוח הודעה ללא צורך בלשמור
+                אותו ברשימת אנשי הקשר שלך!
+              </p>
+            </div>
+            <div class="faq-item">
+              <h3>האם זה בטוח להשתמש באפליקציה?</h3>
+              <p>
+                בהחלט! האפליקציה לא שומרת את המספרים או ההודעות שלכם. היא רק
+                מאפשרת לכם לפתוח שיחת וואצאפ חדשה בקלות.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h3>האם האפליקציה בחינם?</h3>
+              <p>כן, האפליקציה היא לגמרי בחינם וללא פרסומות מעצבנות!</p>
+            </div>
+          </div>
+
+          <div class="cta-section">
+            <h2>נו, למה אתם מחכים?</h2>
+            <p>הורידו עכשיו והתחילו לשלוח הודעות בקלות!</p>
+            <a href="https://github.com/TheYali1/TheYali1.github.io/raw/refs/heads/main/QuickPing.apk" class="cta-button">הורד את האפליקציה</a>
+          </div>
+        </div>
+        <div class="cta-section">
+          <p>בקרוב החלק על Telegram, Signal, Skype, Viber!</p>
+        </div>
+      </div>
+      <footer class="footer">
+        <p class="copyright">© 2025 כל הזכויות שמורות ליהלי מסלוי</p>
+      </footer>
+    </div>
+    <style>
+      .faq-section {
+        padding: 4rem 0;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+      }
+
+      .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+      }
+
+      .faq-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 1rem;
+        backdrop-filter: blur(10px);
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .faq-item h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+      }
+
+      .faq-item p {
+        opacity: 0.9;
+        line-height: 1.6;
+      }
+
+      .cta-section {
+        text-align: center;
+        padding: 4rem 0;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .cta-section p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 2rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 2rem;
+      }
+
+      .copyright {
+        opacity: 0.8;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .faq-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section-title,
+        .cta-section h2 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </body>
+</html>
